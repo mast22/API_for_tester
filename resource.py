@@ -1,7 +1,6 @@
 from flask_restplus import reqparse, abort, Api, Resource
 from models import Question, Test, ma
 from main import app
-import parsers
 import methods
 from flask import request, jsonify
 
@@ -9,17 +8,14 @@ api = Api(app)
 
 # question api
 
+from api_models import *
+
 question_api = api.namespace('question/', description='Question related APIs')
 
-from api_models import get_question_model, post_question_model, get_test_model
 
 class QuestionSchema(ma.ModelSchema):
     class Meta:
         model = Question
-
-class TestSchema(ma.ModelSchema):
-    class Meta:
-        model = Test
 
 @question_api.route('/')
 class QuestionAPI(Resource):
@@ -51,6 +47,18 @@ class QuestionByIdAPI(Resource):
 
 test_api = api.namespace('test/', description='Test related APIs')
 
+class TestSchema(ma.ModelSchema):
+    class Meta:
+        model = Test
+
+@test_api.route('/')
+class TestAPI(Resource):
+    def post(self):
+        t_id = methods.create_test()
+        response = jsonify(id=t_id, message='Test has been created')
+        response.status_code = 201
+        return response
+
 @test_api.route('/<int:id>')
 class TestByIdAPI(Resource):
     @api.marshal_with(get_test_model)
@@ -64,3 +72,18 @@ class TestByIdAPI(Resource):
         test_schema = TestSchema()
         output = test_schema.dump(t).data
         return output
+
+
+user_api = api.namespace('user/', description='User related APIs')
+
+@test_api.route('/')
+class UserAPI(Resource):
+    @api.marshal_with(post_user_model)
+    def post(self):
+        pass
+
+@test_api.route('/<int:id>')
+class TestByIdAPI(Resource):
+    @api.marshal_with(get_user_model)
+    def get(self, id):
+        pass

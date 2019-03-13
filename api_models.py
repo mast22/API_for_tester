@@ -1,7 +1,11 @@
 from flask_restplus import fields
 from resource import api
 
-post_question_model = api.model('Post model', {
+"""
+QUESTION RELATED MODELS FOR API
+"""
+
+post_question_model = api.model('Post question model', {
     "q_type":           fields.String,
     "question_text":    fields.String,
     "variant_1":        fields.String,
@@ -15,13 +19,26 @@ post_question_model = api.model('Post model', {
     "match_variant_4":  fields.String
 })
 
-get_question_model = api.inherit('Get model', post_question_model, {
+get_question_model = api.inherit('Get question model', post_question_model, {
     "id":               fields.Integer,
     "in_tests":         fields.List(fields.Integer),
 })
 
+"""
+TEST RELATED MODELS FOR API
+"""
 
-get_test_model = api.model('Get test with question ids', {
+get_test_model = api.model('Get test model', {
     "id": fields.Integer,
     "questions": fields.List(fields.Integer)
+})
+
+"""
+USER RELATED MODELS FOR API
+"""
+
+post_user_model = api.model('Post user model', {
+})
+
+get_user_model = api.model('Get user model', {
 })

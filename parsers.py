@@ -1,6 +1,5 @@
 from flask_restplus import reqparse
 
-
 question_post_parser = reqparse.RequestParser()
 
 question_post_parser.add_argument("q_type", required=True, choices=['check', 'radio', 'match', 'string'])

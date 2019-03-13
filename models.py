@@ -6,12 +6,13 @@ from flask_marshmallow import Marshmallow
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-# class User(db.Model):
-#     __tablename__ = 'users'
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(50), unique=True)
-#     password = db.Column(db.String(50))
-#     role = db.Column(db.String(30), default='user')
+class User(db.Model):
+    __tablename__ = 'users'
+    id =        db.Column(db.Integer, primary_key=True)
+    name =      db.Column(db.String(50))
+    email =     db.Column(db.String(50), unique=True)
+    password =  db.Column(db.String(50))
+    role =      db.Column(db.String(30), default='user')
 
 """
 Assosiation table to connect test and question
@@ -51,7 +52,7 @@ class Question(db.Model):
     right_var = db.Column(db.String(50))
 
     """
-    В случае если это match вопрос, то из нижеследующих полей выбирается ответ для соответствия вариантам
+    In case of a "match" question, the variants will be choosen from the variants below
     variant_1: match_variant_1
     """
     match_variant_1 = db.Column(db.String(255))

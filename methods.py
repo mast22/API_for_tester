@@ -1,4 +1,4 @@
-from models import Question, db
+from models import Question, Test, db
 
 def second_data_parser(data):
     if data:
@@ -22,3 +22,9 @@ def create_question(data):
     db.session.add(q)
     db.session.commit()
     return q.id
+
+def create_test():
+    t = Test()
+    db.session.add(t)
+    db.session.commit()
+    return t.id
