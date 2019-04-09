@@ -2,6 +2,7 @@ from main import app
 from sqlalchemy import Column
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -9,10 +10,16 @@ ma = Marshmallow(app)
 class User(db.Model):
     __tablename__ = 'users'
     id =        db.Column(db.Integer, primary_key=True)
-    name =      db.Column(db.String(50))
+    username =      db.Column(db.String(50))
     email =     db.Column(db.String(50), unique=True)
     password =  db.Column(db.String(50))
     role =      db.Column(db.String(30), default='user')
+
+    def __init__(self, username, email, password, role):
+        self.username = username
+        self.email = email
+        self.password = generate_password_hash(password)
+        self.role = role
 
 """
 Assosiation table to connect test and question

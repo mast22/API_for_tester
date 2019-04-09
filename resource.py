@@ -1,5 +1,5 @@
 from flask_restplus import reqparse, abort, Api, Resource
-from models import Question, Test, ma
+from models import Question, Test, User, ma
 from main import app
 import methods
 from flask import request, jsonify
@@ -76,13 +76,21 @@ class TestByIdAPI(Resource):
 
 user_api = api.namespace('user/', description='User related APIs')
 
-@test_api.route('/')
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+
+@user_api.route('/')
 class UserAPI(Resource):
     @api.marshal_with(post_user_model)
     def post(self):
-        pass
+        data = request.json
+        u_id = methods.create_user(data)
+        response = jsonify(id=u_id, message='User has been created')
+        response.status_code = 201
+        return response
 
-@test_api.route('/<int:id>')
+@user_api.route('/<int:id>')
 class TestByIdAPI(Resource):
     @api.marshal_with(get_user_model)
     def get(self, id):

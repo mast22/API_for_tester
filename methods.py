@@ -28,3 +28,14 @@ def create_test():
     db.session.add(t)
     db.session.commit()
     return t.id
+
+def create_user(data):
+    u = User(
+        username=data.get('username'),
+        email=data.get('email'),
+        password=data.get('password'),
+        role=data.get('role')
+    )
+    db.session.add(u)
+    db.session.commit()
+    return u.id
